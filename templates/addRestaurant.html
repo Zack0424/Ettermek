@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}"> {% endblock %}
+{% block title %} Admin Page {% endblock %}
+{% block content %}
+
+    <div class="p-sm-0 p-md-3 p-lg-5">
+    <div class="site-box" id="addrest">
+        <form action="#" method="POST">
+            <label>Étterem neve: </label>
+            <input type="text" name="restaurant_name_input">
+            <label >Étterem specialitása: </label>
+            <select name="select" id="restaurant_types">
+                <option value="Pizza">Pizza</option>
+                <option value="Gyros">Gyros</option>
+                <option value="Hamburger">Hamburger</option>
+                <option value="Palacsinta">Palacsinta</option>
+                <option value="Egyéb">Egyéb</option>
+            </select>
+
+            <input id="addrestsubmit" type="submit" class="btn btn-success">
+
+
+
+        </form>
+    </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+{% endblock %}
+{% block title %} Bejelentkezés {% endblock %}
+{% block content %}
+
+<div class="login-box">
+    <h1>Bejelentkezés</h1>
+<form action="#" method="post">
+    <label >Email</label>
+    <input type="email" placeholder="" name="email_input">
+    <label >Jelszó</label>
+    <input type="password" placeholder="" name="password_input">
+    <input type="submit" name="submit" class="btn btn-success" value="Bejelentkezés">
+</form>
+<p class="para-2">Nincs még fiókod? <a href="/register">csinálj egyet itt!</a></p>
+</div>
+
+
+{% endblock %}

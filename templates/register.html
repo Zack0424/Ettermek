@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+{% endblock %}
+{% block title %} Regisztráció {% endblock %}
+
+{% block content %}
+
+<div class="signup-box">
+    <h1>Regisztráció</h1>
+
+    <form method="POST" action="#" class="register_form">
+        <label>Keresztnév</label>
+        <input type="text" placeholder="" name="first_name_input">
+        <label >Vezetéknév</label>
+        <input type="text" placeholder="" name="last_name_input">
+        <label >Email</label>
+        <input type="email" placeholder="" name="email_input">
+        <label >Jelszó</label>
+        <input type="password" placeholder="" name="password_input">
+        <label >Jelszó megerősítése</label>
+        <input type="password" placeholder="" name="password_confirmation_input">
+        <input type="submit" class="btn btn-success" name="submit" value="Regisztráció">
+    </form>
+    <p>Már van fiókod? <a href="/login">Jelentkezz be itt!</a></p>
+</div>
+
+
+
+{% endblock %}
