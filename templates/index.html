@@ -5,13 +5,23 @@
 
 {% block title %} UniFood {% endblock %}
 {% block content %}
+<div class="p-sm-0 p-md-3 p-lg-5">
 <div class="site-box">
     
     <h1>UniFood</h1>
     <p class="under-logo-slogan">Az éhező egyetemisták legjobb barátja!</p>
 
-</div>
+    {% for i in restaurants %}
+        <p class="restaurant">{{i["name"]}}</p>
+    {% endfor %}
+    {% if rank > 2 %}
+    <button onclick='location.href="/addRestaurant"'>Hozzáadás</button>
+    {% endif %}
 
+
+
+</div>
+</div>
 
 
 {% endblock %}

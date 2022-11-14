@@ -105,51 +105,67 @@ app.permanent_session_lifetime = timedelta(days=20)
 
 @app.route("/")
 def mainpage():
-    return render_template("index.html")
+    if "user" in session:
+        session4 = Session()
+        rank= str(session4.query(User.rank).filter(session["user"] == User.email).first())
+        rank = int(rank[1])
+        session4.close()
+        session5 = Session()
+        restaurants = session5.query(Restaurant).all()
+
+        session5.close()
+
+        return render_template("index.html", rank=rank,search=True, name=session["user"], restaurants=restaurants)
+    return render_template("index.html", rank=0,search=True, name="", restaurants=[])
 
 @app.route("/login", methods=['POST', "GET"])
 def login():
-    session_login = Session()
-    if request.method == "POST":
-        session.permanent = True
-        user = request.form["email_input"]
-        pw  = request.form["password_input"]
-        x = session_login.query(User).filter(User.email ==user).filter(User.password== pw).first()
-        
-        if x:
-            session["user"] = user
-            return redirect(url_for("logged"))
-    return render_template("login.html")
+    if "user" not in session:
+        session_login = Session()
+        if request.method == "POST":
+            session.permanent = True
+            user = request.form["email_input"]
+            pw  = request.form["password_input"]
+            x = session_login.query(User).filter(User.email ==user).filter(User.password== pw).first()
+
+            if x:
+                session["user"] = user
+                return redirect(url_for("mainpage"))
+        return render_template("login.html")
+    else:
+        return redirect(url_for("mainpage"))
 
 
 
 @app.route("/register", methods=['POST', "GET"])
 def register():
-    
-    if request.method == "POST":
-        first_name = request.form["first_name_input"]
-        last_name = request.form["last_name_input"]
-        email = request.form["email_input"]
-        pw = request.form["password_input"]
-        pw_conf = request.form["password_confirmation_input"]
-        if first_name =="" and last_name =="" and email ==""and pw == "" and pw_conf =="":
-            pass
-        
-        else:
-            if session2.query(User).filter(User.email == email).first():
-                flash("Ezzel az emaillel már van fiók regisztrálva!")
-            
+    if "user" not in session:
+        if request.method == "POST":
+            first_name = request.form["first_name_input"]
+            last_name = request.form["last_name_input"]
+            email = request.form["email_input"]
+            pw = request.form["password_input"]
+            pw_conf = request.form["password_confirmation_input"]
+            if first_name =="" and last_name =="" and email ==""and pw == "" and pw_conf =="":
+                pass
+
             else:
-                session3 = Session()
-                id = len(session3.query(User).all())
-                user_registration = User(uid = id,email=email,first_name=first_name, last_name=last_name,password=pw)
-                session2.add(user_registration)
-                session2.commit()
-                session3.close()
-                return redirect(url_for("login"))
+                if session2.query(User).filter(User.email == email).first():
+                    flash("Ezzel az emaillel már van fiók regisztrálva!")
+
+                else:
+                    session3 = Session()
+                    id = len(session3.query(User).all())
+                    user_registration = User(uid = id,email=email,first_name=first_name, last_name=last_name,password=pw)
+                    session2.add(user_registration)
+                    session2.commit()
+                    session3.close()
+                    return redirect(url_for("login"))
+
                 
-                
-    return render_template("register.html")
+        return render_template("register.html")
+    else:
+        return redirect(url_for("mainpage"))
 
 @app.route("/logout")
 def logout():
@@ -191,7 +207,7 @@ def add_restaurants():
                 rest = Restaurant(id,name,type)
                 session6.add(rest)
                 session6.commit()
-                return redirect(url_for("logged"))
+                return redirect(url_for("mainpage"))
         
         return render_template("addRestaurant.html")
     return redirect(url_for("logged"))
