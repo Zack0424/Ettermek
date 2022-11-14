@@ -9,15 +9,7 @@
 <div class="site-box ">
     
     <h1>UniFood</h1>
-    <p class="under-logo-slogan">Az éhező egyetemisták legjobb barátja!</p>
-
-    {% if rank > 2 %}
-        {% for i in restaurants %}
-            <p>{{i["name"]}}</p>
-        {% endfor %}
-    {% endif %}
-
-    <button onclick='location.href="/addRestaurant"'>Hozzáadás</button>
+    
 </div>
 </div>
 <h1>Logged in {{name}}</h1>
