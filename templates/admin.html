@@ -1,8 +1,17 @@
 {% extends "base.html" %}
-
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}"> {% endblock %}
 {% block title %} Admin Page {% endblock %}
 {% block content %}
 
+
+<div class="p-sm-0 p-md-3 p-lg-5">
+    <div class="site-box ">
+        
+        <h1>UniFood</h1>
+        
+    </div>
+    </div>
+    <h1>Logged in {{name}}</h1>
 
 
 

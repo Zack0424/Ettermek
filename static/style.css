@@ -148,7 +148,48 @@ a:hover{
     width: 50%;
 }
 
-.restaurant{
+.etterem-item{
+    padding: 10px 5px;
+    width: 90%;
+    height:fit-content;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    border: solid #49c1a2 1px;
+    border-radius: 5px;
+}
+.etterem-item:hover{
+    background-color: #49c1a2;
+}
+
+#add-restaurant-button:hover{
+    background-color: #49c1a2;
+}
+
+.etterem-name{
 text-align:left;
 padding-left:10px;
+}
+
+.etterem-ertekeles{
+    display: block;
+    float: right;
+    padding-right: 50px;
+}
+
+.ertekeles-csillag{
+    display: inline-block;
+    margin-left: auto;
+    width:fit-content;
+    padding: auto;
+    color: #49c1a2;
+    background-color: rgba(128, 128, 128, 0.144);
+    border-radius: 10px;
+    border: 1px solid #344a721a;
+    cursor: pointer;
+    font-size: 30px;
+}
+#ertekeles-label{
+    display: inline-block;
 }

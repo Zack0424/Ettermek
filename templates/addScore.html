@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static',filename='style.css')}}"> {% endblock %}
+{% block title %} Add score {% endblock %}
+{% block content %}
+
+    <div class="p-sm-0 p-md-3 p-lg-5">
+    <div class="site-box" id="addrest">
+        <form action="#" method="POST">
+            <label>Étterem neve:  <strong>{{restaurant}}</strong></label>
+            <br>
+            <label id="ertekeles-label">Értékelés: </label>
+            <select name="ertekeles-csillag"class="ertekeles-csillag" id="">
+                <option value="1">★</option>
+                <option value="2">★★</option>
+                <option value="3">★★★</option>
+                <option value="4">★★★★</option>
+                <option value="5">★★★★★</option>
+            </select>
+
+            <label>Megjegyzés</label>
+            <input type="text" name="description-input" placeholder="Rövid megjegyzés az ételről">
+
+
+
+            <input id="addrestsubmit" type="submit" class="btn btn-success">
+        </form>
+    </div>
+    </div>
+
+
+{% endblock %}

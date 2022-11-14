@@ -12,10 +12,15 @@
     <p class="under-logo-slogan">Az éhező egyetemisták legjobb barátja!</p>
 
     {% for i in restaurants %}
-        <p class="restaurant">{{i["name"]}}</p>
+    <div class="etterem-item btn btn-outline-success" onclick='location.href="/{{i["name"]}}"'>
+        <span class="etterem-name">{{i["name"]}}</span>
+        <span>Specialitás:{{i["type"]}}</span>
+        <span class="etterem-ertekeles">Értékelés:{{i["score"]}}★</span>
+    </div>
     {% endfor %}
-    {% if rank > 2 %}
-    <button onclick='location.href="/addRestaurant"'>Hozzáadás</button>
+    {% if rank > -1 %}
+    <br>
+    <button id="add-restaurant-button" class="btn btn-outline-success" onclick='location.href="/addRestaurant"'>Hozzáadás</button>
     {% endif %}
 
 

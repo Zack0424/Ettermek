@@ -40,7 +40,7 @@ class Restaurant(Base):
     __tablename__ = "restaurants"
 
     id = Column("id", Integer, primary_key = True)
-    name = Column("name", Integer)
+    name = Column("name", String)
     type = Column("type", String)
     score = Column("score", Integer)
 
@@ -60,14 +60,16 @@ class Rest_user_connector(Base):
     rid = Column(Integer, ForeignKey("restaurants.id"))
     uid = Column(Integer, ForeignKey("users.id"))
     score = Column("score",Integer)
+    desc = Column("Description", String)
 
-    def __init__(self, uid, rid,score):
+    def __init__(self, uid, rid,score,desc=""):
         self.uid = uid
         self.rid = rid
         self.score = score
+        self.desc
 
     def __repr__(self):
-        return f"({self.uid}) - ({self.rid}) {self.score}"
+        return f"({self.uid}) - ({self.rid}) {self.score} {self.desc}"
 
 
 engine = create_engine("sqlite:///mydb.db", echo=True)
@@ -185,7 +187,7 @@ def logged():
         restaurants = session5.query(Restaurant).all()
 
         session5.close()
-        return render_template("logged.html",search=True, name=session["user"], rank=rank, restaurants=restaurants)
+        return render_template("mainpage.html",search=True, name=session["user"], rank=rank, restaurants=restaurants)
 
 @app.route("/addRestaurant", methods=['POST', "GET"])
 def add_restaurants():
@@ -193,7 +195,7 @@ def add_restaurants():
     rank= str(session4.query(User.rank).filter(session["user"] == User.email).first())
     rank = int(rank[1])
     session4.close()
-    if rank>2:
+    if rank>-1:
         if request.method=="POST":
             name = request.form["restaurant_name_input"]
             type = request.form["select"]
@@ -210,9 +212,42 @@ def add_restaurants():
                 return redirect(url_for("mainpage"))
         
         return render_template("addRestaurant.html")
-    return redirect(url_for("logged"))
+    return redirect(url_for("mainpage"))
 
+@app.route("/<restaurant>", methods=['POST', "GET"])
+def addScore(restaurant):
+    session3 = Session()
+    x =session3.query(Restaurant.name).filter(Restaurant.name==restaurant).first()
+    session3.close()
+    if x:
 
+        if request.method=="POST":
+            session3 = Session()
+            user_id = session3.query(User.id).filter(User.email == session["user"]).first()[0]
+            restaurant_name= restaurant
+            score = request.form["ertekeles-csillag"]
+            desc = request.form["description-input"]
+            cid = len(session3.query(Rest_user_connector).all())
+            rid = session3.query(Restaurant.id).filter(Restaurant.name==restaurant).first()[0]
+            addingScore = Rest_user_connector(user_id,rid,score,desc)
+
+            session3.add(addingScore)
+            session3.commit()
+
+            current_score = session3.query(Restaurant.score).filter(Restaurant.id == rid).first()[0]
+            all_scores = session3.query(Rest_user_connector.score).filter(Rest_user_connector.rid == rid).all()
+            sum_of_scores = 0
+            print(all_scores)
+            if all_scores:
+                for i in all_scores:
+                    sum_of_scores+=int(i[0])
+                avg_score = round(sum_of_scores/len(all_scores),1)
+                session3.query(Restaurant).filter(Restaurant.id == rid).update({"score": avg_score})
+                session3.commit()
+
+                return redirect(url_for("mainpage"))
+        return render_template("addScore.html",restaurant=restaurant)
+    return redirect(url_for("mainpage"))
 
 if __name__ == "__main__":
     app.run(debug=True)
